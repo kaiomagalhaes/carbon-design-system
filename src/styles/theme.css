@@ -1,9 +1,12 @@
 /*
  * CarbonOS Design System — "Refined Carbon"
  *
- * Dark-mode-first. Data-dense but breathable.
+ * Dark-mode-first, with a light theme. Data-dense but breathable.
  * Warm amber accent over carbon blacks.
  * Monospace numbers for accounting alignment.
+ *
+ * Theming: dark is the default; add the `.light` class to a root element to flip
+ * the semantic tokens. See the Theming block below the @theme declaration.
  *
  * This file is the single source of truth for design tokens. It is consumed by
  * Tailwind v4 via the @theme block, which generates the corresponding utility
@@ -64,6 +67,18 @@
   --color-accent-hover: var(--color-amber-400);
   --color-accent-muted: var(--color-amber-900);
 
+  /*
+   * ── Adaptive foreground tokens ──
+   * Readable text colors for accent + status, tuned per theme below. Dark values
+   * are the defaults here; the `.light` block overrides them. Components use these
+   * (text-accent-text, text-error-text, …) instead of raw amber/red/green/blue so
+   * contrast holds in both modes.
+   */
+  --color-accent-text: var(--color-amber-400);
+  --color-success-text: #4ade80;
+  --color-error-text: #f87171;
+  --color-info-text: #60a5fa;
+
   /* ── Typography ── */
   --font-display: "Instrument Serif", Georgia, serif;
   --font-body: "DM Sans", system-ui, sans-serif;
@@ -99,6 +114,69 @@
   --header-height: 48px;
 }
 
+/*
+ * ── Theming ──
+ *
+ * Dark is the default (the token values above). Adding the `.light` class to a
+ * root element (typically <html>) remaps the SEMANTIC tokens only — the raw
+ * carbon/amber/status palettes stay fixed. Because every component utility
+ * resolves to a CSS variable (bg-surface → var(--color-surface)), overriding the
+ * variable here flips the whole system with no component changes.
+ *
+ * An explicit `.dark` selector is provided too so apps can force dark on a
+ * subtree regardless of the default.
+ */
+
+.light {
+  /* Surfaces — light gray page, white raised cards */
+  --color-bg: #fafafa;
+  --color-surface: #ffffff;
+  --color-surface-raised: #ffffff;
+  --color-surface-overlay: #f0f0f1;
+  --color-border: #e4e4e7;
+  --color-border-subtle: #f0f0f1;
+
+  /* Text — near-black down to faint gray */
+  --color-text-primary: #18181b;
+  --color-text-secondary: #52525b;
+  --color-text-muted: #71717a;
+  --color-text-faint: #a1a1aa;
+
+  /* Accent — step down to amber-600/700 for contrast on light surfaces */
+  --color-accent: var(--color-amber-600);
+  --color-accent-hover: var(--color-amber-500);
+  --color-accent-muted: var(--color-amber-300);
+
+  /* Adaptive foregrounds — darker so they read on light tints */
+  --color-accent-text: var(--color-amber-700);
+  --color-success-text: #15803d;
+  --color-error-text: #b91c1c;
+  --color-info-text: #1d4ed8;
+}
+
+.dark {
+  --color-bg: var(--color-carbon-950);
+  --color-surface: var(--color-carbon-900);
+  --color-surface-raised: var(--color-carbon-850);
+  --color-surface-overlay: var(--color-carbon-800);
+  --color-border: var(--color-carbon-700);
+  --color-border-subtle: #1f1f24;
+
+  --color-text-primary: var(--color-carbon-50);
+  --color-text-secondary: var(--color-carbon-300);
+  --color-text-muted: var(--color-carbon-400);
+  --color-text-faint: var(--color-carbon-500);
+
+  --color-accent: var(--color-amber-500);
+  --color-accent-hover: var(--color-amber-400);
+  --color-accent-muted: var(--color-amber-900);
+
+  --color-accent-text: var(--color-amber-400);
+  --color-success-text: #4ade80;
+  --color-error-text: #f87171;
+  --color-info-text: #60a5fa;
+}
+
 /* ── Base reset ── */
 
 * {
@@ -129,12 +207,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-carbon-700);
+  background: var(--color-border);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-carbon-600);
+  background: var(--color-text-faint);
 }
 
 /* ── Monospace numbers in tables ── */

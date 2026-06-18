@@ -22,6 +22,22 @@ with monospace numerals for accounting alignment.
 - **One accent.** Amber carries primary actions, active states, and focus. Semantic colors
   (success / warning / error / info) are reserved for status.
 
+## Dark & light
+
+The system is **dark-mode-first** but ships a **light theme**. Use the **Theme** switch in the
+toolbar above to preview any story in either mode.
+
+Theming is driven entirely by CSS variables: dark is the default, and adding the `.light` class
+to a root element remaps the *semantic* tokens (surfaces, text, borders, accent). The raw
+carbon / amber / status palettes stay fixed. Because every component class resolves to a token
+(`bg-surface` → `var(--color-surface)`), the whole library flips with no per-component code.
+
+```html
+<html class="light">
+  <!-- light theme -->
+</html>
+```
+
 ## Using the system
 
 Import the tokens once at your app root, then import components by name:

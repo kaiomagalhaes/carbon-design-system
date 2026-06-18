@@ -16,7 +16,7 @@ const ScrollArea = forwardRef<
       orientation="vertical"
       className="flex h-full w-2 touch-none select-none border-l border-l-transparent p-px transition-colors"
     >
-      <ScrollAreaPrimitive.ScrollAreaThumb className="relative flex-1 rounded-full bg-carbon-700" />
+      <ScrollAreaPrimitive.ScrollAreaThumb className="relative flex-1 rounded-full bg-border" />
     </ScrollAreaPrimitive.ScrollAreaScrollbar>
     <ScrollAreaPrimitive.Corner />
   </ScrollAreaPrimitive.Root>

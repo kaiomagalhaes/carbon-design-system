@@ -35,6 +35,20 @@ src/
 - **class-variance-authority** for variants
 - **Storybook 8** (react-vite) with autodocs + a11y addon
 
+## Theming (dark & light)
+
+Dark-mode-first, with a light theme. Toggle modes from the **Theme** switch in the Storybook
+toolbar. In an app, dark is the default; add the `.light` class to a root element to switch:
+
+```html
+<html class="light"> ... </html>
+```
+
+Only the semantic tokens (surfaces, text, borders, accent, and the adaptive
+`accent`/`success`/`error`/`info` text colors) remap — the raw palette stays fixed. Components
+reference semantic tokens, so they adapt with no code changes. See the Theming block in
+[`src/styles/theme.css`](src/styles/theme.css).
+
 ## Foundations (design tokens)
 
 All tokens live in [`src/styles/theme.css`](src/styles/theme.css) and generate the Tailwind
