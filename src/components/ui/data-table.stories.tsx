@@ -1,6 +1,40 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import type { TFunction } from "i18next";
+import { useTranslation } from "react-i18next";
+import i18n from "../../i18n";
 import { DataTable, type ColumnDef } from "./data-table";
 import { StatusBadge } from "./status-badge";
+
+i18n.addResourceBundle(
+  "en",
+  "dataTable",
+  {
+    chargeId: "Charge ID",
+    tenant: "Tenant",
+    unit: "Unit",
+    chargeCode: "Charge Code",
+    status: "Status",
+    amount: "Amount",
+    emptyMessage: "No charges posted for this period.",
+  },
+  true,
+  true,
+);
+i18n.addResourceBundle(
+  "es",
+  "dataTable",
+  {
+    chargeId: "ID de cargo",
+    tenant: "Inquilino",
+    unit: "Unidad",
+    chargeCode: "Código de cargo",
+    status: "Estado",
+    amount: "Importe",
+    emptyMessage: "No hay cargos registrados para este período.",
+  },
+  true,
+  true,
+);
 
 /**
  * DataTable is a TanStack-backed table with sorting, pagination, optional row
@@ -46,47 +80,61 @@ const data: ChargeRow[] = Array.from({ length: 30 }, (_, i) => {
   };
 });
 
-const columns: ColumnDef<ChargeRow>[] = [
-  { accessorKey: "id", header: "Charge ID" },
-  { accessorKey: "tenant", header: "Tenant" },
-  { accessorKey: "unit", header: "Unit" },
-  { accessorKey: "chargeCode", header: "Charge Code" },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => <StatusBadge status={row.getValue("status")} />,
-  },
-  {
-    accessorKey: "amount",
-    header: "Amount",
-    cell: ({ row }) => (
-      <span className="font-mono tabular-nums text-text-primary">
-        ${row.getValue("amount")}
-      </span>
-    ),
-  },
-];
+function makeColumns(t: TFunction): ColumnDef<ChargeRow>[] {
+  return [
+    { accessorKey: "id", header: t("chargeId") },
+    { accessorKey: "tenant", header: t("tenant") },
+    { accessorKey: "unit", header: t("unit") },
+    { accessorKey: "chargeCode", header: t("chargeCode") },
+    {
+      accessorKey: "status",
+      header: t("status"),
+      cell: ({ row }) => <StatusBadge status={row.getValue("status")} />,
+    },
+    {
+      accessorKey: "amount",
+      header: t("amount"),
+      cell: ({ row }) => (
+        <span className="font-mono tabular-nums text-text-primary">
+          ${row.getValue("amount")}
+        </span>
+      ),
+    },
+  ];
+}
 
 type Story = StoryObj<typeof DataTable<ChargeRow, unknown>>;
 
 export const Default: Story = {
-  render: () => <DataTable columns={columns} data={data} />,
+  render: () => {
+    const { t } = useTranslation("dataTable");
+    return <DataTable columns={makeColumns(t)} data={data} />;
+  },
 };
 
 export const WithRowSelection: Story = {
-  render: () => <DataTable columns={columns} data={data} enableSelection />,
+  render: () => {
+    const { t } = useTranslation("dataTable");
+    return <DataTable columns={makeColumns(t)} data={data} enableSelection />;
+  },
 };
 
 export const Empty: Story = {
-  render: () => (
-    <DataTable
-      columns={columns}
-      data={[]}
-      emptyMessage="No charges posted for this period."
-    />
-  ),
+  render: () => {
+    const { t } = useTranslation("dataTable");
+    return (
+      <DataTable
+        columns={makeColumns(t)}
+        data={[]}
+        emptyMessage={t("emptyMessage")}
+      />
+    );
+  },
 };
 
 export const SmallPageSize: Story = {
-  render: () => <DataTable columns={columns} data={data} pageSize={5} />,
+  render: () => {
+    const { t } = useTranslation("dataTable");
+    return <DataTable columns={makeColumns(t)} data={data} pageSize={5} />;
+  },
 };

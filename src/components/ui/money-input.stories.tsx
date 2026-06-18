@@ -1,6 +1,27 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import i18n from "../../i18n";
 import { MoneyInput } from "./money-input";
+
+i18n.addResourceBundle(
+  "en",
+  "moneyInput",
+  {
+    rawValue: "Raw value: {{value}}",
+  },
+  true,
+  true,
+);
+i18n.addResourceBundle(
+  "es",
+  "moneyInput",
+  {
+    rawValue: "Valor sin formato: {{value}}",
+  },
+  true,
+  true,
+);
 
 /**
  * MoneyInput is a controlled currency field with a fixed "$" prefix and
@@ -17,11 +38,14 @@ export default meta;
 
 export const Default: StoryObj<typeof MoneyInput> = {
   render: () => {
+    const { t } = useTranslation("moneyInput");
     const [value, setValue] = useState("");
     return (
       <div className="flex w-72 flex-col gap-2">
         <MoneyInput value={value} onChange={setValue} placeholder="0.00" />
-        <p className="text-xs text-text-muted">Raw value: {JSON.stringify(value)}</p>
+        <p className="text-xs text-text-muted">
+          {t("rawValue", { value: JSON.stringify(value) })}
+        </p>
       </div>
     );
   },
@@ -29,11 +53,14 @@ export const Default: StoryObj<typeof MoneyInput> = {
 
 export const WithValue: StoryObj<typeof MoneyInput> = {
   render: () => {
+    const { t } = useTranslation("moneyInput");
     const [value, setValue] = useState("1250.00");
     return (
       <div className="flex w-72 flex-col gap-2">
         <MoneyInput value={value} onChange={setValue} />
-        <p className="text-xs text-text-muted">Raw value: {JSON.stringify(value)}</p>
+        <p className="text-xs text-text-muted">
+          {t("rawValue", { value: JSON.stringify(value) })}
+        </p>
       </div>
     );
   },
@@ -41,11 +68,14 @@ export const WithValue: StoryObj<typeof MoneyInput> = {
 
 export const Disabled: StoryObj<typeof MoneyInput> = {
   render: () => {
+    const { t } = useTranslation("moneyInput");
     const [value, setValue] = useState("3400.00");
     return (
       <div className="flex w-72 flex-col gap-2">
         <MoneyInput value={value} onChange={setValue} disabled />
-        <p className="text-xs text-text-muted">Raw value: {JSON.stringify(value)}</p>
+        <p className="text-xs text-text-muted">
+          {t("rawValue", { value: JSON.stringify(value) })}
+        </p>
       </div>
     );
   },

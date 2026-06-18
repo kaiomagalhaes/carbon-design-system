@@ -1,8 +1,45 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import i18n from "../../i18n";
 import { CommandPalette, CommandGroup, CommandItem } from "./command-palette";
 import { Button } from "./button";
 import { Home, Users, FileText, Receipt, CreditCard, Plus } from "lucide-react";
+
+i18n.addResourceBundle(
+  "en",
+  "commandPalette",
+  {
+    openButton: "Open command palette (or press {{hint}})",
+    navigation: "Navigation",
+    goToDashboard: "Go to dashboard",
+    goToTenants: "Go to tenants",
+    goToLeases: "Go to leases",
+    actions: "Actions",
+    newApplication: "New application",
+    postACharge: "Post a charge",
+    recordAPayment: "Record a payment",
+  },
+  true,
+  true,
+);
+i18n.addResourceBundle(
+  "es",
+  "commandPalette",
+  {
+    openButton: "Abrir paleta de comandos (o presione {{hint}})",
+    navigation: "Navegación",
+    goToDashboard: "Ir al panel",
+    goToTenants: "Ir a inquilinos",
+    goToLeases: "Ir a contratos",
+    actions: "Acciones",
+    newApplication: "Nueva solicitud",
+    postACharge: "Registrar un cargo",
+    recordAPayment: "Registrar un pago",
+  },
+  true,
+  true,
+);
 
 /**
  * Command palette (cmdk) for fast navigation and actions. It binds ⌘K / Ctrl+K
@@ -18,33 +55,34 @@ export default meta;
 export const Default: StoryObj = {
   render: () => {
     function Demo() {
+      const { t } = useTranslation("commandPalette");
       const [open, setOpen] = useState(false);
       return (
         <div className="flex flex-col items-start gap-3">
           <Button variant="outline" onClick={() => setOpen(true)}>
-            Open command palette (or press ⌘K)
+            {t("openButton", { hint: "⌘K" })}
           </Button>
           <CommandPalette open={open} onOpenChange={setOpen}>
-            <CommandGroup heading="Navigation">
+            <CommandGroup heading={t("navigation")}>
               <CommandItem icon={<Home size={16} />} onSelect={() => setOpen(false)}>
-                Go to dashboard
+                {t("goToDashboard")}
               </CommandItem>
               <CommandItem icon={<Users size={16} />} onSelect={() => setOpen(false)}>
-                Go to tenants
+                {t("goToTenants")}
               </CommandItem>
               <CommandItem icon={<FileText size={16} />} onSelect={() => setOpen(false)}>
-                Go to leases
+                {t("goToLeases")}
               </CommandItem>
             </CommandGroup>
-            <CommandGroup heading="Actions">
+            <CommandGroup heading={t("actions")}>
               <CommandItem icon={<Plus size={16} />} onSelect={() => setOpen(false)}>
-                New application
+                {t("newApplication")}
               </CommandItem>
               <CommandItem icon={<Receipt size={16} />} onSelect={() => setOpen(false)}>
-                Post a charge
+                {t("postACharge")}
               </CommandItem>
               <CommandItem icon={<CreditCard size={16} />} onSelect={() => setOpen(false)}>
-                Record a payment
+                {t("recordAPayment")}
               </CommandItem>
             </CommandGroup>
           </CommandPalette>

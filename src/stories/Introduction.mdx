@@ -38,6 +38,17 @@ carbon / amber / status palettes stay fixed. Because every component class resol
 </html>
 ```
 
+## Language (i18n)
+
+Example copy is available in **English** and **Spanish** — the only two supported languages.
+Use the **Language** switch in the toolbar (🌐) to flip every story between `EN` and `ES`.
+
+The components themselves are presentational (all copy arrives via props/children), so
+localization lives at the example layer. Each story registers its own strings via
+`i18n.addResourceBundle` and reads them with `useTranslation`, powered by
+[react-i18next](https://react.i18next.com/). Data-like values (status codes, amounts, names)
+stay untranslated.
+
 ## Using the system
 
 Import the tokens once at your app root, then import components by name:

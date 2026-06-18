@@ -1,5 +1,34 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { useTranslation } from "react-i18next";
+import i18n from "../../i18n";
 import { Progress } from "./progress";
+
+i18n.addResourceBundle(
+  "en",
+  "progress",
+  {
+    notStarted: "Not started",
+    applicationReceived: "Application received",
+    screeningInProgress: "Screening in progress",
+    leaseDrafted: "Lease drafted",
+    moveInComplete: "Move-in complete",
+  },
+  true,
+  true,
+);
+i18n.addResourceBundle(
+  "es",
+  "progress",
+  {
+    notStarted: "Sin iniciar",
+    applicationReceived: "Solicitud recibida",
+    screeningInProgress: "Verificación en curso",
+    leaseDrafted: "Contrato redactado",
+    moveInComplete: "Mudanza completada",
+  },
+  true,
+  true,
+);
 
 /**
  * Progress is a Radix progress bar. It renders a determinate fill based on the
@@ -25,25 +54,28 @@ export const Default: Story = {
 };
 
 const steps = [
-  { value: 0, label: "Not started" },
-  { value: 25, label: "Application received" },
-  { value: 50, label: "Screening in progress" },
-  { value: 75, label: "Lease drafted" },
-  { value: 100, label: "Move-in complete" },
-];
+  { value: 0, key: "notStarted" },
+  { value: 25, key: "applicationReceived" },
+  { value: 50, key: "screeningInProgress" },
+  { value: 75, key: "leaseDrafted" },
+  { value: 100, key: "moveInComplete" },
+] as const;
 
 export const Values: Story = {
-  render: () => (
-    <div className="flex w-80 flex-col gap-5">
-      {steps.map(({ value, label }) => (
-        <div key={value} className="flex flex-col gap-1.5">
-          <div className="flex items-center justify-between text-xs text-text-muted">
-            <span>{label}</span>
-            <span className="tabular-nums">{value}%</span>
+  render: () => {
+    const { t } = useTranslation("progress");
+    return (
+      <div className="flex w-80 flex-col gap-5">
+        {steps.map(({ value, key }) => (
+          <div key={value} className="flex flex-col gap-1.5">
+            <div className="flex items-center justify-between text-xs text-text-muted">
+              <span>{t(key)}</span>
+              <span className="tabular-nums">{value}%</span>
+            </div>
+            <Progress value={value} />
           </div>
-          <Progress value={value} />
-        </div>
-      ))}
-    </div>
-  ),
+        ))}
+      </div>
+    );
+  },
 };

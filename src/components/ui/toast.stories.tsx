@@ -1,6 +1,44 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { useTranslation } from "react-i18next";
+import i18n from "../../i18n";
 import { ToastProvider, useToast } from "./toast";
 import { Button } from "./button";
+
+i18n.addResourceBundle(
+  "en",
+  "toast",
+  {
+    defaultToast: "Default toast",
+    chargePostedTitle: "Charge posted",
+    chargePostedDescription: "Rent of $1,850.00 posted to Lease #L-2049.",
+    successToast: "Success toast",
+    paymentRecordedTitle: "Payment recorded",
+    paymentRecordedDescription: "$1,850.00 applied to open charges (FIFO).",
+    errorToast: "Error toast",
+    postingFailedTitle: "Posting failed",
+    postingFailedDescription: "Accounting period is CLOSED and rejects new entries.",
+  },
+  true,
+  true,
+);
+i18n.addResourceBundle(
+  "es",
+  "toast",
+  {
+    defaultToast: "Notificación predeterminada",
+    chargePostedTitle: "Cargo registrado",
+    chargePostedDescription: "Renta de $1,850.00 registrada en el contrato #L-2049.",
+    successToast: "Notificación de éxito",
+    paymentRecordedTitle: "Pago registrado",
+    paymentRecordedDescription: "$1,850.00 aplicados a cargos abiertos (FIFO).",
+    errorToast: "Notificación de error",
+    postingFailedTitle: "Error al registrar",
+    postingFailedDescription:
+      "El período contable está CLOSED y rechaza nuevos asientos.",
+  },
+  true,
+  true,
+);
 
 /**
  * Transient notifications. Mount a `ToastProvider` once near the app root, then
@@ -14,6 +52,7 @@ const meta: Meta = {
 export default meta;
 
 function ToastDemo() {
+  const { t } = useTranslation("toast");
   const { toast } = useToast();
   return (
     <div className="flex flex-wrap gap-2">
@@ -21,35 +60,35 @@ function ToastDemo() {
         variant="outline"
         onClick={() =>
           toast({
-            title: "Charge posted",
-            description: "Rent of $1,850.00 posted to Lease #L-2049.",
+            title: t("chargePostedTitle"),
+            description: t("chargePostedDescription"),
           })
         }
       >
-        Default toast
+        {t("defaultToast")}
       </Button>
       <Button
         onClick={() =>
           toast({
             variant: "success",
-            title: "Payment recorded",
-            description: "$1,850.00 applied to open charges (FIFO).",
+            title: t("paymentRecordedTitle"),
+            description: t("paymentRecordedDescription"),
           })
         }
       >
-        Success toast
+        {t("successToast")}
       </Button>
       <Button
         variant="destructive"
         onClick={() =>
           toast({
             variant: "error",
-            title: "Posting failed",
-            description: "Accounting period is CLOSED and rejects new entries.",
+            title: t("postingFailedTitle"),
+            description: t("postingFailedDescription"),
           })
         }
       >
-        Error toast
+        {t("errorToast")}
       </Button>
     </div>
   );

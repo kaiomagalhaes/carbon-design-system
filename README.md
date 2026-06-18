@@ -49,6 +49,17 @@ Only the semantic tokens (surfaces, text, borders, accent, and the adaptive
 reference semantic tokens, so they adapt with no code changes. See the Theming block in
 [`src/styles/theme.css`](src/styles/theme.css).
 
+## Internationalization (English & Spanish)
+
+Story example copy is bilingual — **English** and **Spanish** are the only supported languages.
+Flip every story with the **Language** toggle (🌐) in the Storybook toolbar.
+
+Built on [react-i18next](https://react.i18next.com/). The shared instance lives in
+[`src/i18n/index.ts`](src/i18n/index.ts); each story registers its own namespace via
+`i18n.addResourceBundle("en" | "es", "<component>", { … })` and renders with
+`useTranslation("<component>")`. Because components are presentational, i18n applies only to
+example copy — status codes, amounts, and names are left as data.
+
 ## Foundations (design tokens)
 
 All tokens live in [`src/styles/theme.css`](src/styles/theme.css) and generate the Tailwind
