@@ -15,8 +15,8 @@
     "build": "storybook build",
     "build-storybook": "storybook build",
     "typecheck": "tsc --noEmit",
-    "heroku-postbuild": "pnpm run build && cp serve.json storybook-static/serve.json",
-    "start": "serve storybook-static -l tcp://0.0.0.0:${PORT:-6006}"
+    "heroku-postbuild": "pnpm run build",
+    "start": "node server.js"
   },
   "engines": {
     "node": "22.x"
@@ -40,9 +40,9 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "lucide-react": "^1.14.0",
+    "express": "^4.19.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "serve": "^14.2.4",
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
